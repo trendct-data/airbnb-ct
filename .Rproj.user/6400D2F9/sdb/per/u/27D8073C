@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "air <- read.csv(\"airbnb_latlong.csv\", stringsAsFactors=FALSE)\n\n\nlibrary(trendct)\n\n\n?trendmap\n\ntrendmap(ctair, headline=\"Test map for R generator\", subhead=\"This is a subhead\",\n         src=\"airbnb.com\", byline=\"TrendCT.org\", url_append=\"date\", shape=\"towns\", color=\"yellow-red\")\n\nheader <- head(ctair)\n\n?trendchart\n\ntrendchart(header, headline = \"delete this chart\", subhead = \"\", src = \"\",\n           byline = \"TrendCT.org\", type = \"bar\", xTitle = \"\", yTitle = \"\",\n           xSuffix = \"\", ySuffix = \"\", xPrefix = \"\", yPrefix = \"\", option = \"\")\nfancytable(ctair, headline = \"delete this table\", subhead = \"\", height = 400,\n           paging = \"false\", sourceline = \"\", byline = \"TrendCT.org\", col = 0,\n           desc_asc = \"desc\")\nfancytable(ctair)",
+    "created" : 1452097401675.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3337899159",
+    "id" : "27D8073C",
+    "lastKnownWriteTime" : 1452097399,
+    "last_content_update" : 0,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

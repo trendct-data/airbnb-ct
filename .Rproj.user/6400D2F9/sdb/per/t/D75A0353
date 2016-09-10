@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1453249477481.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D75A0353",
+    "lastKnownWriteTime" : 4294901760,
+    "last_content_update" : 0,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "ryb5qmoshd",
+        "caption" : "ctair",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ctair&cache_key=ryb5qmoshd",
+        "displayedObservations" : "134",
+        "environment" : "",
+        "object" : "ctair",
+        "totalObservations" : "134",
+        "variables" : "5"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

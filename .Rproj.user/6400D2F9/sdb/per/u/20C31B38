@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(stringr)\nairbnb <- read.csv(\"airbnb-ind-01-15-2016.csv\", stringsAsFactors=FALSE)\n\n#Create column based on town and state\n\nairbnb$state <- sub(\", United States\",\"\", airbnb$location)\nairbnb$town <- sub(\",.*\",\"\", airbnb$state)\nairbnb$town <- str_trim(airbnb$town)\nairbnb$state <- sub(\", United States\",\"\", airbnb$location)\n\nairbnb$state <- sub(\".*,\",\"\",airbnb$state)\nairbnb$state <- str_trim(airbnb$state)\n\n# subset to just connecticut locations\nct_airbnb <- subset(airbnb, state==\"CT\")\n\n# Clean up a few weird town anomalies\nct_airbnb$town <- gsub(\"特拉伯尔\", \"Trumbull\", ct_airbnb$town)\nct_airbnb$town <- gsub(\"特拉伯尔\", \"Trumbull\", ct_airbnb$town)\nct_airbnb$town <- gsub(\"//\", \"North Granby\", ct_airbnb$town)\nwrite.csv(ct_airbnb, \"ct_airbnb.csv\")\nct_airbnb <- read.csv(\"ct_airbnb.csv\", stringsAsFactors=FALSE)\n\nlibrary(ctnamecleaner)\n\nct_airbnb <- ctnamecleaner(town, ct_airbnb)\n\n# take out $ signs\n\nct_airbnb$per_night <- gsub(\"\\\\$\", \"\", ct_airbnb$per_night)\nct_airbnb$per_night <- gsub(\"\\\\,\", \"\", ct_airbnb$per_night)\n\nct_airbnb$per_night <- as.numeric(as.character((ct_airbnb$per_night)))\nct_airbnb$hoster <- paste(ct_airbnb$owner, ct_airbnb$town, sep=\" \")\nblah <- data.frame(table(ct_airbnb$hoster))\n\nct_airbnb$bed <- gsub(\" Bedrooms\", \"\", ct_airbnb$bed)\nct_airbnb$bed <- gsub(\" Bed\", \"\", ct_airbnb$bed)\nct_airbnb$bed <- gsub(\"room\", \"\", ct_airbnb$bed)\nct_airbnb$bed <- gsub(\"s\", \"\", ct_airbnb$bed)\nct_airbnb$bed <- gsub(\"0\", \"1\", ct_airbnb$bed)\nct_airbnb$bed <- as.numeric(as.character((ct_airbnb$bed)))\n\nct_airbnb$per_bed <- round(ct_airbnb$per_night/ct_airbnb$bed,2)\n\n# ok, time for map\n\nctair <- data.frame(table(ct_airbnb$real.town.name))\ncolnames(ctair) <- c(\"town\", \"airbnbs\")\n\nctair_avg <- data.frame(tapply(ct_airbnb$per_bed, ct_airbnb$real.town.name, mean, na.rm=TRUE))\nctair_avg$town <- rownames(ctair_avg)\ncolnames(ctair_avg) <- c(\"avg.per.bed\", \"town\")\nctair_avg$avg.per.bed <- round(ctair_avg$avg.per.bed, 2)\nctair_median <- data.frame(tapply(ct_airbnb$per_bed, ct_airbnb$real.town.name, median, na.rm=TRUE))\nctair_median$town <- rownames(ctair_median)\ncolnames(ctair_median) <- c(\"median.per.bed\", \"town\")\nctair_median$median.per.bed <- round(ctair_median$median.per.bed, 2)\nctair <- left_join(ctair, ctair_avg)\nctair <- left_join(ctair, ctair_median)\n\n#ctair_max <- ct_airbnb %>% \n#  group_by(real.town.name) %>%\n#  filter(bed == max(bed)) %>%\n#  arrange(max)\n\nctair_max <- data.frame(tapply(ct_airbnb$per_night, ct_airbnb$real.town.name, max, na.rm=TRUE))\nctair_max$town <- rownames(ctair_max)\ncolnames(ctair_max) <- c(\"max.price\", \"town\")\nctair <- left_join(ctair, ctair_max)\n\nlibrary(trendct)\n\ntrendmap(ctair, headline=\"Airbnbs in Connecticut\", subhead=\"\",\n         src=\"airbnb.com\", byline=\"TrendCT.org\", url_append=\"date\", shape=\"towns\", color=\"yellow-red\")\n\nwrite.csv(ctair, \"ctair.csv\")\nwrite.csv(ctair_avg, \"ctair_avg.csv\")\nctair_avg <- read.csv(\"ctair_avg.csv\", stringsAsFactors=FALSE)\nctair_avg$X <- NULL\nctair_avg <- ctair_avg[c(\"town\", \"avg.per.bed\")]\nctcorrelator(ctair_avg)\n\n",
+    "created" : 1452005618029.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1924529553",
+    "id" : "20C31B38",
+    "lastKnownWriteTime" : 4299745296,
+    "last_content_update" : 0,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
